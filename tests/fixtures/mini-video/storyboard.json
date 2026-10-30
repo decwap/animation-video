@@ -1,0 +1,7 @@
+{
+  "title": "Mini video",
+  "scenes": [
+    { "id": "one", "src": "scenes/one.html", "lines": [1, 1] },
+    { "id": "two", "src": "scenes/two.html", "lines": [2, 2], "hold": 3 }
+  ]
+}

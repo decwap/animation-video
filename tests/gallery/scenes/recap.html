@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: recap
+  purpose: the main points again, as a checklist.
+  slots: kicker; 2-4 items with a check icon
+  when: the second-to-last scene of a lesson.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="recap" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-kicker id="kick" data-at="start+0.1">Recap</av-kicker>
+      <div class="av-col">
+        <av-item id="r1" icon="circle-check" title="Paste the script" data-at="0.6s"></av-item>
+        <av-item id="r2" icon="circle-check" title="Pick a look" data-at="1.2s"></av-item>
+        <av-item id="r3" icon="circle-check" title="Render" data-at="1.8s"></av-item>
+      </div>
+    </div>
+  </div>
+</template>
+</body>
+</html>

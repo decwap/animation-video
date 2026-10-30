@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: flow
+  purpose: a process as steps joined by arrows, lighting up in order.
+  slots: title; 2-4 items (num + title); arrows between them
+  when: "how it works", pipelines, cause and effect.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    [data-composition-id="flow"] .flow { gap: 4px; }
+    [data-composition-id="flow"] .flow .av-arrow svg { width: 64px; height: 110px; }
+  </style>
+  <div id="root" data-composition-id="flow" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-headline id="title" size="m" data-at="start+0.2">How it <em>works</em></av-headline>
+      <div class="av-col flow">
+        <av-item id="f1" num="1" title="Your script goes in" data-at="0.8s"></av-item>
+        <av-arrow id="a1" dir="down" data-at="1.3s"></av-arrow>
+        <av-item id="f2" num="2" title="Claude plans the scenes" data-at="1.6s"></av-item>
+        <av-arrow id="a2" dir="down" data-at="2.1s"></av-arrow>
+        <av-item id="f3" num="3" title="The video comes out" data-at="2.4s"></av-item>
+      </div>
+    </div>
+  </div>
+</template>
+</body>
+</html>

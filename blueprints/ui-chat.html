@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: ui-chat
+  purpose: a chat on a phone: a prompt typed, a reply.
+  slots: messages ("user: …|ai: …")
+  when: showing a prompt or an AI conversation.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="ui-chat" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-phone id="ph" data-at="start+0.2">
+        <av-chat id="chat" messages="user: Make a reel about my coffee shop|ai: On it. Writing reel.html with 6 scenes…" data-at="0.8s"></av-chat>
+      </av-phone>
+    </div>
+  </div>
+</template>
+</body>
+</html>

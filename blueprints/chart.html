@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: chart
+  purpose: a chart that draws itself, with the point that matters picked out.
+  slots: title; chart (type line|bar|donut, values, labels, highlight, unit, title, source)
+  when: trends, comparisons, shares of a whole. Real data only.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="chart" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-headline id="title" size="m" data-at="start+0.2">Views climbed <em>every</em> day</av-headline>
+      <av-chart id="ch" type="line" values="120,340,560,900,1400,2600,4100" labels="M,T,W,T,F,S,S" highlight="6" title="First week" source="Example numbers" data-at="0.8s" data-dur="1.6"></av-chart>
+    </div>
+  </div>
+</template>
+</body>
+</html>

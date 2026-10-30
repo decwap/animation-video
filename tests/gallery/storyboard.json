@@ -1,0 +1,143 @@
+{
+  "title": "Blueprint gallery",
+  "slug": "gallery",
+  "scenes": [
+    {
+      "id": "hook",
+      "src": "scenes/hook.html",
+      "lines": [
+        1,
+        1
+      ]
+    },
+    {
+      "id": "step",
+      "src": "scenes/step.html",
+      "lines": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "list",
+      "src": "scenes/list.html",
+      "lines": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "big-number",
+      "src": "scenes/big-number.html",
+      "lines": [
+        4,
+        4
+      ]
+    },
+    {
+      "id": "compare",
+      "src": "scenes/compare.html",
+      "lines": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "chart",
+      "src": "scenes/chart.html",
+      "lines": [
+        6,
+        6
+      ]
+    },
+    {
+      "id": "flow",
+      "src": "scenes/flow.html",
+      "lines": [
+        7,
+        7
+      ]
+    },
+    {
+      "id": "timeline",
+      "src": "scenes/timeline.html",
+      "lines": [
+        8,
+        8
+      ]
+    },
+    {
+      "id": "definition",
+      "src": "scenes/definition.html",
+      "lines": [
+        9,
+        9
+      ]
+    },
+    {
+      "id": "ui-chat",
+      "src": "scenes/ui-chat.html",
+      "lines": [
+        10,
+        10
+      ]
+    },
+    {
+      "id": "ui-terminal",
+      "src": "scenes/ui-terminal.html",
+      "lines": [
+        11,
+        11
+      ]
+    },
+    {
+      "id": "phone",
+      "src": "scenes/phone.html",
+      "lines": [
+        12,
+        12
+      ]
+    },
+    {
+      "id": "broll",
+      "src": "scenes/broll.html",
+      "lines": [
+        13,
+        13
+      ]
+    },
+    {
+      "id": "grid-focus",
+      "src": "scenes/grid-focus.html",
+      "lines": [
+        14,
+        14
+      ]
+    },
+    {
+      "id": "quiz",
+      "src": "scenes/quiz.html",
+      "lines": [
+        15,
+        15
+      ]
+    },
+    {
+      "id": "recap",
+      "src": "scenes/recap.html",
+      "lines": [
+        16,
+        16
+      ]
+    },
+    {
+      "id": "cta",
+      "src": "scenes/cta.html",
+      "lines": [
+        17,
+        17
+      ],
+      "hold": 3
+    }
+  ]
+}

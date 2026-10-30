@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: timeline
+  purpose: an order of events or parts on a track, with a playhead running through.
+  slots: title; track clips (label:weight|...); up to 3 chips as notes
+  when: structure, history, "first this, then that".
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="timeline" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-headline id="title" size="m" data-at="start+0.2">The <em>order</em> matters</av-headline>
+      <av-track id="tr" clips="Hook:2|Steps:4|Proof:2|CTA:2" data-at="0.8s"></av-track>
+      <div class="av-row">
+        <av-chip id="c1" data-at="1.4s">0-3 s: hook</av-chip>
+        <av-chip id="c2" data-at="2.0s">last 3 s: CTA</av-chip>
+      </div>
+    </div>
+  </div>
+</template>
+</body>
+</html>

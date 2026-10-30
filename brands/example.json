@@ -1,0 +1,18 @@
+{
+  "name": "Your Brand",
+  "handle": "@yourhandle",
+  "cta": { "keyword": "GUIDE", "line": "and I'll send you the free guide" },
+  "voice": { "provider": "vidiq", "id": "", "name": "" },
+  "currency": "USD",
+  "logo": "",
+  "disclaimer": "",
+  "_notes": {
+    "handle": "the watermark on every frame; the brand name is used when it is empty",
+    "cta": "the call to action the last scene uses: 'Comment GUIDE and I'll send you the free guide'",
+    "voice": "a saved vidIQ voice (voiceId and name), reused without asking each time",
+    "currency": "GHS writes GH¢ 1,234; USD $1,234; EUR €1,234; GBP £1,234",
+    "accent": "add \"accent\": \"#C32126\" to tint every look's accent colour with your brand colour",
+    "logo": "path to a PNG or SVG; copy it into the video's assets/ folder to place it in a scene",
+    "disclaimer": "a line shown on screen for money or health lessons, e.g. Education, not financial advice."
+  }
+}

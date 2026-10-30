@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: grid-focus
+  purpose: a grid of options, then one picked out while the rest step back.
+  slots: title; 4-9 icons or items; the one to focus (in the script below); a chip
+  when: choices, "which one", features with a favourite.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    [data-composition-id="grid-focus"] .g4 { grid-template-columns: repeat(2, 280px); gap: 40px; }
+  </style>
+  <div id="root" data-composition-id="grid-focus" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-headline id="title" size="m" data-at="start+0.2">Four <em>looks</em></av-headline>
+      <div class="av-grid g4">
+        <av-icon id="g1" name="file-text" size="280" data-at="0.7s"></av-icon>
+        <av-icon id="g2" name="sparkles" size="280" data-at="0.85s"></av-icon>
+        <av-icon id="g3" name="pencil" size="280" data-at="1.0s"></av-icon>
+        <av-icon id="g4" name="newspaper" size="280" data-at="1.15s"></av-icon>
+      </div>
+      <av-chip id="pick" data-at="end-1.6">this one</av-chip>
+    </div>
+  </div>
+  <script>AV.scene("grid-focus", (tl, q, ctx) => { AV.verbs.focus(tl, q('#g2'), ctx.t('end-1.8'), {}); });</script>
+</template>
+</body>
+</html>

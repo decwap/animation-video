@@ -1,0 +1,13 @@
+# Same files as scripts/package.mjs leaves out of animation-video.skill
+.superpowers/
+.DS_Store
+node_modules/
+*.mp4
+*.skill
+.hyperframes/
+/docs/
+/tests/gallery/looks*/
+/tests/gallery/picker.html
+/tests/gallery/summary.json
+/tests/kitcheck/project/
+/tests/kitcheck/debug.html

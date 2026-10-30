@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: phone
+  purpose: an app screen on a phone with a number and a notification.
+  slots: any primitives inside av-phone (kicker, counter, item, chip, image)
+  when: product moments, "what you see on your phone".
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    [data-composition-id="phone"] .av-counter__num { font-size: 92px; }
+    [data-composition-id="phone"] .av-counter__label { font-size: 28px; }
+    [data-composition-id="phone"] .av-item { padding: 18px 20px; gap: 16px; }
+    [data-composition-id="phone"] .av-item__icon { width: 72px; height: 72px; }
+    [data-composition-id="phone"] .av-item__icon svg { width: 40px; height: 40px; }
+    [data-composition-id="phone"] .av-item__title { font-size: 30px; }
+    [data-composition-id="phone"] .av-item__text { font-size: 28px; }
+  </style>
+  <div id="root" data-composition-id="phone" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-phone id="ph" data-at="start+0.2">
+        <av-kicker id="k" data-at="0.7s">Today</av-kicker>
+        <av-counter id="bal" to="1284" currency="GHS" label="safe to spend" data-at="0.9s"></av-counter>
+        <av-item id="it" icon="bell" title="Rent is due Friday" text="GH¢ 1,500 set aside" data-at="1.8s"></av-item>
+      </av-phone>
+    </div>
+  </div>
+</template>
+</body>
+</html>

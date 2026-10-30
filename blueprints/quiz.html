@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: quiz
+  purpose: a quick-check question, options, then the answer revealed.
+  slots: kicker; question; 2-4 options (num A/B/C + title); the right one (script below); answer stamp
+  when: mid-video or before the recap: makes people stop and think.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="quiz" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-kicker id="kick" data-at="start+0.1">Quick check</av-kicker>
+      <av-headline id="q" size="m" data-at="start+0.3">Which look suits <em>news</em>?</av-headline>
+      <div class="av-col opts">
+        <av-item id="o1" num="A" title="Storybook Doodle" data-at="1.0s"></av-item>
+        <av-item id="o2" num="B" title="Bold Editorial" data-at="1.25s"></av-item>
+        <av-item id="o3" num="C" title="Warm Paper" data-at="1.5s"></av-item>
+      </div>
+      <av-stamp id="ans" rot="-6" data-at="end-1.6">B ✓</av-stamp>
+    </div>
+  </div>
+  <script>AV.scene("quiz", (tl, q, ctx) => { AV.verbs.focus(tl, q('#o2'), ctx.t('end-1.8'), {}); });</script>
+</template>
+</body>
+</html>

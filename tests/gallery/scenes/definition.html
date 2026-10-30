@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: definition
+  purpose: a key term and its plain-English meaning.
+  slots: kicker; the term (headline with <em>); definition lines (doc items); a handwritten note
+  when: jargon the audience may not know (dividend, b-roll, token).
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    [data-composition-id="definition"] .av-doc { width: 860px; }
+  </style>
+  <div id="root" data-composition-id="definition" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-kicker id="kick" data-at="start+0.1">Key term</av-kicker>
+      <av-headline id="term" size="xl" data-at="start+0.3"><em>B-roll</em></av-headline>
+      <av-doc id="def" title="in plain English" items="Extra footage that shows|what the voice is saying" hl="1" data-at="1.2s"></av-doc>
+      <av-note id="nb" data-at="end-1.8">no camera needed</av-note>
+    </div>
+  </div>
+</template>
+</body>
+</html>

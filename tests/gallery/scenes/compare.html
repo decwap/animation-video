@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: compare
+  purpose: two sides side by side: before/after, myth/fact, old way/new way.
+  slots: title; a-icon, a-title, a-text; b-icon, b-title, b-text; label between them
+  when: contrasts and myth-busting.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="compare" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-headline id="title" size="m" data-at="start+0.2">Before <em>vs</em> after</av-headline>
+      <av-split id="vs" a-icon="clock" a-title="Hours" a-text="of editing by hand" b-icon="sparkles" b-title="One prompt" b-text="and a coffee" label="vs" data-at="0.9s"></av-split>
+    </div>
+  </div>
+</template>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: cta
+  purpose: the ending: "Comment KEYWORD", what they get, the handle. Holds at least 3 s.
+  slots: keyword; line; handle (defaults to the brand handle); mascot
+  when: the last scene. Set "hold": 3 on it in storyboard.json.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="cta" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-cta id="cta" keyword="ANIMATE" line="and I'll send you the skill, free" data-at="start+0.2"></av-cta>
+      <av-mascot id="m" pose="wave" data-at="1.0s"></av-mascot>
+    </div>
+  </div>
+</template>
+</body>
+</html>

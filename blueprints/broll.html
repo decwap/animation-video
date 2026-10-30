@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: broll
+  purpose: a beat of code-made b-roll (city, money, network, globe, ticker, burst, docs) under a short line.
+  slots: title; broll name, w, h, seed
+  when: whenever the voice explains something with no object of its own. Free and unlimited.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="broll" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-headline id="title" size="m" data-at="start+0.2">Drawn in <em>code</em>. Free, unlimited.</av-headline>
+      <av-broll id="br" name="city" w="900" h="840" data-at="0.6s"></av-broll>
+    </div>
+  </div>
+</template>
+</body>
+</html>

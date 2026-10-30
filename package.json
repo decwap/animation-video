@@ -1,0 +1,14 @@
+{
+  "name": "animation-video",
+  "version": "1.0.0",
+  "description": "Educational animated explainer videos in four looks, made by Claude with HyperFrames. A skill by Web Asamoah.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "Web Asamoah",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test --test-timeout=120000 \"tests/*.test.mjs\"",
+    "fetch-assets": "node scripts/fetch-assets.mjs"
+  }
+}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: ui-terminal
+  purpose: a terminal typing commands and output.
+  slots: title; lines ("$ cmd|output|…"); data-cps typing speed
+  when: showing that something is code, or the steps a tool runs.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="ui-terminal" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-headline id="title" size="m" data-at="start+0.2">Written in <em>code</em></av-headline>
+      <av-terminal id="term" title="claude" lines="$ claude|> make a reel about my coffee shop|Write(scenes/hook.html)|Write(scenes/steps.html)|✓ 6 scenes ready" data-at="0.6s" data-cps="60" data-gap="0.15"></av-terminal>
+    </div>
+  </div>
+</template>
+</body>
+</html>

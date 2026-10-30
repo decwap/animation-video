@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: hook
+  purpose: the first 2-4 s: a kicker, a headline that builds word by word with the voice, one hero visual.
+  slots: kicker text; headline (<em> marks the accent word); hero row (any objects); chip; mascot
+  when: scene 1 of every video.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    [data-composition-id="hook"] .hero { gap: 0; margin: 6px 0; }
+    [data-composition-id="hook"] .hero .av-arrow svg { width: 140px; height: 72px; }
+    [data-composition-id="hook"] .av-doc { width: 350px; }
+    [data-composition-id="hook"] .av-video { width: 300px; }
+    [data-composition-id="hook"] .av-video__thumb { height: 380px; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div class="av-stage is-top">
+      <av-kicker id="kick" data-at="start+0.1">Did you know?</av-kicker>
+      <av-headline id="head" size="l" data-at="start+0.3">Claude can turn any <em>script</em> into an animated explainer.</av-headline>
+      <div class="av-row hero">
+        <av-doc id="doc" title="script.txt" lines="6" hl="2" data-at="1.4s" data-rot="-4"></av-doc>
+        <av-arrow id="arrow" dir="right" data-at="1.9s"></av-arrow>
+        <av-video id="vid" label="explainer.mp4" data-at="2.2s" data-rot="4"></av-video>
+      </div>
+      <av-chip id="chip" icon="sparkles" data-at="end-2.0">1 script → 4 looks</av-chip>
+    </div>
+    <av-mascot id="mascot" data-at="2.6s" style="position:absolute;right:130px;top:700px"></av-mascot>
+  </div>
+</template>
+</body>
+</html>

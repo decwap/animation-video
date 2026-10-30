@@ -1,0 +1,54 @@
+/* animation-video base: layout and structure every look builds on. Looks set the tokens
+   (colours, fonts, radius, shadow) and the details of each primitive. Part of animation-video
+   (by Web Asamoah). Key content: x 60–960, y 220–1380 (the platform's buttons own x 960+). Captions:
+   x 60–960, y 1400–1540. Content text is 36 px and up; only title bars, file tabs and the watermark go
+   down to 28 px. */
+:root {
+  --av-bg: #F3EDE4; --av-ink: #1B1714; --av-paper: #FFFFFF; --av-muted: rgba(27, 23, 20, 0.45);
+  --av-accent: #D4613A; --av-accent2: #F2A57E; --av-glow: #FFE3CF; --av-up: #22A06B; --av-down: #D9423B;
+  --av-font: 'Inter', sans-serif; --av-display: 'Inter', sans-serif; --av-serif: 'Instrument Serif', serif;
+  --av-mono: 'JetBrains Mono', monospace; --av-hand: 'Caveat', cursive;
+  --av-radius: 28px; --av-shadow: 0 30px 70px rgba(0, 0, 0, 0.18);
+}
+html, body { margin: 0; background: var(--av-bg); }
+
+/* root-level layers. Each scene's .av-scene wrapper fills the canvas, so clip-path wipes and
+   scale or rotate transitions work on a real 1080x1920 box (its children are all positioned). */
+.av-scene { position: absolute; inset: 0; }
+.av-decor { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.av-watermark { position: absolute; right: 64px; top: 118px; font: 600 28px var(--av-mono); letter-spacing: 0.05em; color: var(--av-muted); }
+
+/* scene layout helpers */
+.av-stage { position: absolute; left: 60px; right: 120px; top: 220px; height: 1160px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 44px; }
+.av-stage.is-top { justify-content: flex-start; padding-top: 30px; }
+.av-row { display: flex; gap: 32px; align-items: center; justify-content: center; }
+.av-col { display: flex; flex-direction: column; gap: 28px; align-items: center; }
+.av-grid { display: grid; gap: 24px; justify-content: center; }
+.av-spacer { flex: 1; }
+
+/* primitives: structure only */
+.av-p { position: relative; box-sizing: border-box; }
+.av-w { display: inline-block; }
+.av-kicker, .av-headline { text-align: center; margin: 0; }
+.av-headline { max-width: 900px; }
+.av-chip, .av-stamp, .av-note { display: inline-flex; align-items: center; gap: 12px; width: max-content; max-width: 900px; }
+.av-mark { position: relative; display: inline-block; }
+.av-mark__bg { position: absolute; inset: 6% -10px 4% -10px; z-index: 0; }
+.av-mark__t { position: relative; z-index: 1; }
+.av-counter { display: flex; flex-direction: column; align-items: center; max-width: 100%; }
+.av-counter__num { display: block; max-width: 100%; white-space: nowrap; text-align: center; }
+.av-icon { display: inline-grid; place-items: center; }
+.av-icon svg { width: 60%; height: 60%; }
+.av-item { display: flex; align-items: center; gap: 24px; width: 860px; }
+.av-split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 900px; }
+.av-broll { overflow: hidden; }
+.av-broll canvas { display: block; width: 100%; height: 100%; }
+.av-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.av-chart svg, .av-arrow svg, .av-progress svg { display: block; overflow: visible; }
+.av-cta { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+.av-window .av-chat, .av-phone .av-chat, .av-phone .av-item, .av-window .av-item { width: 100%; }
+.av-phone .av-counter__num { max-width: 100%; }
+
+/* captions band */
+.av-cap { position: absolute; left: 60px; right: 120px; top: 1400px; text-align: center; }
+.av-cap__w { display: inline-block; }

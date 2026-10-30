@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: list
+  purpose: a short list revealed one item at a time, each on its spoken word.
+  slots: title; 2-5 items (icon or num, title, text)
+  when: features, reasons, tips, "three things".
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="list" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-headline id="title" size="l" data-at="start+0.2">Three <em>Unbelievably-long-compound-wordsmithery</em> things</av-headline>
+      <div class="av-col">
+        <av-item id="i1" icon="chart-line" title="Scans charts" text="Thousands of them, in seconds" data-at="0.9s"></av-item>
+        <av-item id="i2" icon="newspaper" title="Tracks the news" text="On every stock you watch" data-at="1.4s"></av-item>
+        <av-item id="i3" icon="shield-check" title="Sets your stop" text="Before you ever enter" data-at="1.9s"></av-item>
+      </div>
+    </div>
+  </div>
+</template>
+</body>
+</html>

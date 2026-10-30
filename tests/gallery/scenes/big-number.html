@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<!--
+  blueprint: big-number
+  purpose: one number that matters, counting up, with what it means and where it came from.
+  slots: kicker; counter (to, from, dec, prefix, suffix, currency, label); source chip
+  when: any statistic. Every number must be in research.md.
+  timing: data-at takes a spoken word ("script"), "word#2", a line ("L3"), seconds ("1.2s"), or start/end with +/- seconds.
+  copy this file into scenes/, rename data-composition-id to the scene id, change the words, keep the structure.
+-->
+</head>
+<body>
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="big-number" data-width="1080" data-height="1920">
+    <div class="av-stage">
+      <av-kicker id="kick" data-at="start+0.1">In one scan</av-kicker>
+      <av-counter id="num" to="5942" label="US stocks checked" data-at="0.5s" data-dur="1.6"></av-counter>
+      <av-chip id="src" icon="info" data-at="end-2.3">Source: name the source here</av-chip>
+    </div>
+  </div>
+</template>
+</body>
+</html>
