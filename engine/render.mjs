@@ -21,9 +21,10 @@ export function slugOf(videoDir) {
 export const renderFile = (videoDir, look) => path.join(paths(videoDir).renders, `${slugOf(videoDir)}-${look}.mp4`);
 
 // The HyperFrames CLI, run without blocking (a long render must not freeze the picker server).
-function hyperframesRender(cwd, out) {
+// extra adds render options, e.g. ['--format', 'mov'] for a see-through ProRes 4444 layer.
+export function hyperframesRender(cwd, out, extra = []) {
   return new Promise((resolve, reject) => {
-    const child = spawn('npx', [...HF, 'render', '--quality', 'delivery', '-o', out], { cwd });
+    const child = spawn('npx', [...HF, 'render', '--quality', 'delivery', ...extra, '-o', out], { cwd });
     let log = '';
     child.stdout.on('data', (d) => { log = (log + d).slice(-4000); });
     child.stderr.on('data', (d) => { log = (log + d).slice(-4000); });

@@ -234,3 +234,43 @@ test('serve hands out the folder with the right types and stops cleanly', async 
     await s.close();
   }
 });
+
+test('each card can export its look as an edit pack and links to the pack once it exists', () => {
+  const html = pickerHtml({ title: 'T', duration: 10, looks: LOOKS, slug: 'my-video' });
+  for (const l of LOOKS) {
+    assert.match(html, new RegExp(`<button class="render-one"[^>]*data-look="${l.id}"[^>]*>[^<]*</button>\\s*<button class="pack-one" type="button" data-look="${l.id}" title="Export layers, sound and a Premiere timeline to edit in Premiere Pro or CapCut">📦 Edit pack</button>`));
+    assert.match(html, new RegExp(`<a class="pack" href="renders/my-video-${l.id}-edit-pack/HOW%20TO%20EDIT\\.txt" target="_blank" hidden>📂 Open edit pack</a>`));
+  }
+  assert.match(html, /fetch\('__av\/editpack\?looks=' \+ encodeURIComponent\(id\), \{ method: 'POST', headers: \{ 'x-av-build': '1' \} \}\)/);
+  assert.match(html, /Making the edit pack \(a few minutes\)…/);
+  assert.match(html, /document\.querySelectorAll\('#build, \.build-one, #renderall, \.render-one, \.pick-one, \.pack-one'\)/);
+});
+
+test('serve exports an edit pack for one named look only, through the same guards', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'av-serve-'));
+  fs.writeFileSync(path.join(dir, 'picker.html'), '<p>hi</p>');
+  const seen = [];
+  let release;
+  const s = await serve(dir, { port: 0, editPack: async (d, o) => {
+    seen.push([d, o.looks]);
+    if (o.looks[0] === 'paper') await new Promise((r) => { release = r; });
+    return { packed: o.looks.map((look) => ({ look, dir: path.join(d, 'renders', `x-${look}-edit-pack`), seconds: 12.5, files: [] })) };
+  } });
+  const post = (q, headers = { 'x-av-build': '1' }) => fetch(new URL(`__av/editpack${q}`, s.url), { method: 'POST', headers });
+  try {
+    assert.equal((await post('?looks=glow', {})).status, 403);
+    assert.equal((await post('')).status, 400);
+    assert.equal((await post('?looks=glow,paper')).status, 400);
+    const res = await post('?looks=glow');
+    assert.equal(res.status, 200);
+    assert.deepEqual(await res.json(), { ok: true, packed: [{ look: 'glow', dir: 'renders/x-glow-edit-pack', howto: 'renders/x-glow-edit-pack/HOW TO EDIT.txt', seconds: 12.5 }] });
+    assert.deepEqual(seen, [[path.resolve(dir), ['glow']]]);
+    const slow = post('?looks=paper');
+    while (!release) await new Promise((r) => setTimeout(r, 10));
+    assert.equal((await post('?looks=glow')).status, 409);
+    release();
+    assert.equal((await slow).status, 200);
+  } finally {
+    await s.close();
+  }
+});

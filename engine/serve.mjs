@@ -1,5 +1,6 @@
 // A tiny static server for a video folder, so the Look Picker can load every look, plus one action:
-// POST __av/build runs buildAll and POST __av/render renders (the picker's buttons). Ctrl+C stops it.
+// POST __av/build runs buildAll, POST __av/render renders, POST __av/pick picks a look and
+// POST __av/editpack exports one look's edit pack (the picker's buttons). Ctrl+C stops it.
 //   node engine/serve.mjs <videoDir> [--port 4810]   → prints the picker URL
 import fs from 'node:fs';
 import http from 'node:http';
@@ -18,10 +19,12 @@ const TYPES = {
 
 const json = (res, code, body) => res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }).end(JSON.stringify(body));
 
-// Renders run in their own process, so a long render never freezes the server the picker plays from.
-function renderInChild(root, { looks } = {}) {
+// Renders and edit packs run in their own process, so a long render never freezes the server the
+// picker plays from. script is render.mjs or edit-pack.mjs; both print their result as JSON last.
+const inChild = (script) => (root, { looks } = {}) => {
+  const name = script.replace(/\.mjs$/, '');
   return new Promise((resolve, reject) => {
-    const args = [path.join(path.dirname(fileURLToPath(import.meta.url)), 'render.mjs'), root, '--json', ...(looks ? ['--looks', looks.join(',')] : [])];
+    const args = [path.join(path.dirname(fileURLToPath(import.meta.url)), script), root, '--json', ...(looks ? ['--looks', looks.join(',')] : [])];
     const child = spawn(process.execPath, args);
     let out = '';
     let err = '';
@@ -29,17 +32,18 @@ function renderInChild(root, { looks } = {}) {
     child.stderr.on('data', (d) => { err = (err + d).slice(-2000); });
     child.on('error', reject);
     child.on('close', (code) => {
-      if (code !== 0) { reject(new Error(err.trim().split('\n').pop() || `render exited with ${code}`)); return; }
-      try { resolve(JSON.parse(out.trim().split('\n').pop())); } catch { reject(new Error('render gave no result')); }
+      if (code !== 0) { reject(new Error(err.trim().split('\n').pop() || `${name} exited with ${code}`)); return; }
+      try { resolve(JSON.parse(out.trim().split('\n').pop())); } catch { reject(new Error(`${name} gave no result`)); }
     });
   });
-}
+};
 
-export function serve(dir, { port = 4810, page = 'picker.html', buildAll, renderLooks, setPick } = {}) {
+export function serve(dir, { port = 4810, page = 'picker.html', buildAll, renderLooks, setPick, editPack } = {}) {
   const root = path.resolve(dir);
   let busy = null;
   const runBuild = buildAll || (async (d, o) => (await import('./build.mjs')).buildAll(d, o));
-  const runRender = renderLooks || renderInChild;
+  const runRender = renderLooks || inChild('render.mjs');
+  const runPack = editPack || inChild('edit-pack.mjs');
   // picking also rewrites the picker page, so its badges show the new pick after the reload
   const runPick = setPick || (async (d, look) => { const r = (await import('./pick.mjs')).setPick(d, look); await (await import('./build.mjs')).writePicker(d); return r; });
   const relPath = (f) => path.relative(root, f).split(path.sep).join('/');
@@ -55,6 +59,7 @@ export function serve(dir, { port = 4810, page = 'picker.html', buildAll, render
     const looks = asked === null ? null : asked.split(',').map((x) => x.trim()).filter(Boolean);
     if (looks && (!looks.length || looks.some((id) => !LOOKS.includes(id)))) { json(res, 400, { ok: false, error: `unknown look "${asked}" (looks: ${LOOKS.join(', ')})` }); return; }
     if (kind === 'pick' && (!looks || looks.length !== 1)) { json(res, 400, { ok: false, error: 'name one look to pick' }); return; }
+    if (kind === 'editpack' && (!looks || looks.length !== 1)) { json(res, 400, { ok: false, error: 'name one look to pack' }); return; }
     if (busy) { json(res, 409, { ok: false, error: `a ${busy} is already running` }); return; }
     busy = kind;
     try {
@@ -62,6 +67,9 @@ export function serve(dir, { port = 4810, page = 'picker.html', buildAll, render
       if (kind === 'pick') {
         const r = await runPick(root, looks[0]);
         json(res, 200, { ok: true, pick: r.pick, locked: r.locked });
+      } else if (kind === 'editpack') {
+        const r = await runPack(root, opts);
+        json(res, 200, { ok: true, packed: r.packed.map((x) => ({ look: x.look, dir: relPath(x.dir), howto: relPath(path.join(x.dir, 'HOW TO EDIT.txt')), seconds: x.seconds })) });
       } else if (kind === 'build') {
         const r = await runBuild(root, opts);
         json(res, 200, { ok: true, built: r.built, kept: r.kept, warnings: r.warnings });
@@ -82,6 +90,7 @@ export function serve(dir, { port = 4810, page = 'picker.html', buildAll, render
     if (rel === '/__av/build') { onJob(req, res, 'build'); return; }
     if (rel === '/__av/render') { onJob(req, res, 'render'); return; }
     if (rel === '/__av/pick') { onJob(req, res, 'pick'); return; }
+    if (rel === '/__av/editpack') { onJob(req, res, 'editpack'); return; }
     const file = path.resolve(root, `.${rel.endsWith('/') ? `${rel}index.html` : rel}`);
     const fail = (code, text) => res.writeHead(code, { 'content-type': 'text/plain' }).end(text);
     if (!file.startsWith(root + path.sep)) { fail(404, 'not found'); return; }

@@ -56,6 +56,15 @@ test('README credits Web Asamoah and says how to install', () => {
   assert.match(readme, /~\/\.claude\/skills\/animation-video/);
 });
 
+test('SKILL.md and README explain the edit pack and say Premiere is not yet tested', () => {
+  for (const doc of ['SKILL.md', 'README.md']) {
+    assert.match(read(doc), /edit pack/i, doc);
+    assert.match(read(doc), /not yet tested in Premiere/, doc);
+  }
+  assert.match(read('SKILL.md'), /keeps anything else the person saved in its folder/);
+  assert.match(read('SKILL.md'), /relay any `warning:` line/);
+});
+
 test('installing over the skill\'s own source folder is refused', () => {
   // run a copy, so a broken guard could only ever delete the copy
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'av-selfinstall-'));
@@ -74,6 +83,6 @@ test('the package holds the skill and none of the build outputs', () => {
   const r = node('scripts/package.mjs', ['--out', out]);
   assert.equal(r.status, 0, r.stderr);
   const list = spawnSync('unzip', ['-Z1', out], { encoding: 'utf8' }).stdout.split('\n').filter(Boolean);
-  for (const f of ['SKILL.md', 'README.md', 'LICENSE', 'engine/build.mjs', 'kit/core/av.js', 'kit/fonts/fonts.css', 'blueprints/hook.html', 'references/scenes.md']) assert.ok(list.includes(`animation-video/${f}`), f);
+  for (const f of ['SKILL.md', 'README.md', 'LICENSE', 'engine/build.mjs', 'engine/edit-pack.mjs', 'kit/core/av.js', 'kit/fonts/fonts.css', 'blueprints/hook.html', 'references/scenes.md']) assert.ok(list.includes(`animation-video/${f}`), f);
   for (const f of list) assert.doesNotMatch(f, /\.superpowers|tests\/gallery\/looks|tests\/kitcheck\/project|\.mp4$|\.DS_Store|node_modules|^animation-video\/docs\/|^animation-video\/\.git(\/|ignore$|hub\/)/, f);
 });

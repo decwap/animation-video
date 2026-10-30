@@ -1,6 +1,6 @@
 {
   "name": "animation-video",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Educational animated explainer videos in four looks, made by Claude with HyperFrames. A skill by Web Asamoah.",
   "private": true,
   "type": "module",

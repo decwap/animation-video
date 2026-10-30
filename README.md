@@ -29,6 +29,11 @@ pick one, review it, and only then does it render.
   code, so there's nothing to license. Mastered to −14 LUFS, the level social platforms play at.
 - **Editable before render:** your pick opens in HyperFrames Studio, where you can play it and
   change text or timing, or ask Claude for changes.
+- **Editable in Premiere Pro and CapCut:** say "edit pack" (or press **📦 Edit pack** in the picker)
+  and you get the video taken apart: see-through layers that stack back into it (background,
+  graphics, text, captions, watermark), the voice, music and sound effects as separate tracks, the
+  captions as an SRT you can restyle, and a Premiere timeline cut into scenes
+  (not yet tested in Premiere; the CapCut steps are tested in CapCut 9.6).
 
 ## Set up (about 10 minutes on a Mac)
 
@@ -75,6 +80,8 @@ plan and write videos there, but building and rendering need Claude Code on your
 5. Review your pick in HyperFrames Studio (Claude opens it). Change text there or ask Claude.
 6. Press **🎬 Render this look** (or tell Claude "render it"). Your MP4, cover and caption land in
    `renders/` in the video's folder (by default `~/Desktop/VIDEO/<name>/`).
+7. Want to edit it yourself? Say "edit pack". You get a folder in `renders/` with every layer and
+   sound, and a `HOW TO EDIT.txt` with the steps for Premiere Pro and CapCut.
 
 ## Try it
 
@@ -97,6 +104,9 @@ credits on a voice, opens the Look Picker for you, and renders only after you sa
   for your yes. Code b-roll, icons, music and sound effects are free.
 - **Your own voice:** record one take reading the script and give Claude the file. Every animation
   re-times to it automatically.
+- **The edit pack's text layer is a picture,** not live type, so its animation stays exact. To
+  change the words, ask Claude and export the edit pack again. The captions also come as editable
+  text (`captions.srt`).
 - **Speed:** building the four looks takes seconds. The 40-second test video rendered in 17 seconds
   on a recent Mac; older machines take longer.
 

@@ -13,9 +13,11 @@ export function pickerHtml({ title, duration, looks, slug = 'video' }) {
       <figcaption><b>${letter(k)} · ${escapeHtml(l.label)}</b>${l.picked ? '<span class="pick">★ Your pick</span>' : l.locked ? '<span class="lock">🔒 Keeps your edits</span>' : ''}<span class="say">Tell Claude: use ${escapeHtml(l.label)}</span>
         <span class="built"${l.builtAt ? ` data-built="${escapeHtml(l.builtAt)}"` : ''}></span>
         <span class="acts"><button class="build-one" type="button" data-look="${l.id}" title="${l.picked || l.locked ? 'Keeps your Studio edits: only its kit is refreshed' : `Rebuild only ${escapeHtml(l.label)} from the current scenes`}">${l.picked || l.locked ? '⟳ Refresh kit' : '⟳ Build this look'}</button>
-        <button class="render-one" type="button" data-look="${l.id}" title="Render ${escapeHtml(l.label)} to a finished MP4 in renders/">🎬 Render this look</button>${l.picked ? '' : `
+        <button class="render-one" type="button" data-look="${l.id}" title="Render ${escapeHtml(l.label)} to a finished MP4 in renders/">🎬 Render this look</button>
+        <button class="pack-one" type="button" data-look="${l.id}" title="Export layers, sound and a Premiere timeline to edit in Premiere Pro or CapCut">📦 Edit pack</button>${l.picked ? '' : `
         <button class="pick-one" type="button" data-look="${l.id}" title="Make ${escapeHtml(l.label)} the look you review in Studio and render; your earlier pick keeps its edits">☆ Make this my pick</button>`}</span>
-        <a class="watch" href="renders/${escapeHtml(slug)}-${l.id}.mp4" target="_blank" hidden>▶ Watch the render</a></figcaption>
+        <a class="watch" href="renders/${escapeHtml(slug)}-${l.id}.mp4" target="_blank" hidden>▶ Watch the render</a>
+        <a class="pack" href="renders/${escapeHtml(slug)}-${l.id}-edit-pack/HOW%20TO%20EDIT.txt" target="_blank" hidden>📂 Open edit pack</a></figcaption>
     </figure>`).join('\n');
   return `<!doctype html>
 <html lang="en">
@@ -51,11 +53,11 @@ export function pickerHtml({ title, duration, looks, slug = 'video' }) {
   #build { border-color: var(--accent); }
   #build:disabled, .build-one:disabled { opacity: 0.6; cursor: progress; }
   .acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .build-one, .render-one, .pick-one { padding: 5px 10px; font-size: 13px; }
+  .build-one, .render-one, .pick-one, .pack-one { padding: 5px 10px; font-size: 13px; }
   .pick-one { border-color: var(--accent); }
   .lock { color: var(--muted); font-weight: 600; font-size: 13px; }
-  .render-one:disabled, #renderall:disabled { opacity: 0.6; cursor: progress; }
-  .watch { margin-top: 6px; color: var(--accent); font-weight: 600; font-size: 14px; text-decoration: none; }
+  .render-one:disabled, #renderall:disabled, .pack-one:disabled { opacity: 0.6; cursor: progress; }
+  .watch, .pack { margin-top: 6px; color: var(--accent); font-weight: 600; font-size: 14px; text-decoration: none; }
   #buildnote a { color: #fff; font-weight: 700; margin-left: 8px; }
   #buildmsg { color: var(--accent); font-weight: 600; }
   #buildnote { margin: 12px 18px 0; padding: 10px 14px; border: 1px solid #3c6e4f; border-radius: 12px; background: #16261c; color: #bfe8cc; }
@@ -112,7 +114,7 @@ ${cards}
   const scrub = document.getElementById('scrub');
   scrub.addEventListener('input', () => { seekAll(+scrub.value); });
   const buildMsg = document.getElementById('buildmsg');
-  const buildButtons = [...document.querySelectorAll('#build, .build-one, #renderall, .render-one, .pick-one')];
+  const buildButtons = [...document.querySelectorAll('#build, .build-one, #renderall, .render-one, .pick-one, .pack-one')];
   const labelOf = (id) => { const b = document.querySelector('.look[data-look="' + id + '"] b'); return b ? b.textContent.replace(/^[A-Z] · /, '') : id; };
   document.querySelectorAll('.built[data-built]').forEach((el) => {
     el.textContent = 'Built ' + new Date(el.dataset.built).toLocaleString([], { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' });
@@ -129,8 +131,8 @@ ${cards}
       sessionStorage.removeItem('av-build-note');
     }
   } catch (e) { /* no storage: the status line still showed it */ }
-  // Show "Watch the render" on every look that already has one.
-  document.querySelectorAll('.watch').forEach((a) => {
+  // Show "Watch the render" and "Open edit pack" on every look that already has one.
+  document.querySelectorAll('.watch, .pack').forEach((a) => {
     fetch(a.getAttribute('href'), { method: 'HEAD' }).then((r) => { if (r.ok) a.hidden = false; }).catch(() => {});
   });
   async function runBuild(what, request, cards) {
@@ -182,7 +184,32 @@ ${cards}
       runRender(labelOf(id), () => fetch('__av/render?looks=' + encodeURIComponent(id), { method: 'POST', headers: { 'x-av-build': '1' } }), [btn.closest('.look')]);
     });
   });
-  document.querySelectorAll('.watch').forEach((a) => a.addEventListener('click', (e) => e.stopPropagation()));
+  document.querySelectorAll('.watch, .pack').forEach((a) => a.addEventListener('click', (e) => e.stopPropagation()));
+  // The edit pack: layers, sound stems, captions and a Premiere timeline for editing elsewhere.
+  document.querySelectorAll('.pack-one').forEach((btn) => {
+    const id = btn.dataset.look;
+    const card = btn.closest('.look');
+    btn.addEventListener('keydown', (e) => e.stopPropagation());
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      buildButtons.forEach((b) => { b.disabled = true; });
+      card.classList.add('busy');
+      card.querySelector('.busy').textContent = 'Making the edit pack (a few minutes)…';
+      buildMsg.textContent = 'Making the edit pack for ' + labelOf(id) + '… a few minutes; keep this page open.';
+      try {
+        const res = await fetch('__av/editpack?looks=' + encodeURIComponent(id), { method: 'POST', headers: { 'x-av-build': '1' } });
+        const r = await res.json();
+        if (!r.ok) throw new Error(r.error || res.statusText);
+        buildMsg.textContent = '✓ Edit pack ready: ' + r.packed.map((x) => x.dir).join(', ') + ' · ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        card.querySelector('.pack').hidden = false;
+      } catch (err) {
+        buildMsg.textContent = 'Edit pack failed: ' + err.message + ' Ask Claude to look at it.';
+      }
+      card.classList.remove('busy');
+      card.querySelector('.busy').textContent = 'Building…';
+      buildButtons.forEach((b) => { b.disabled = false; });
+    });
+  });
   // Changing the pick: the new pick is locked too, and every look picked before keeps its edits.
   document.querySelectorAll('.pick-one').forEach((btn) => {
     const id = btn.dataset.look;

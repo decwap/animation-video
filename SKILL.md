@@ -134,6 +134,29 @@ contact sheet of the final file and read all of it (`references/qa.md`). Deliver
 - an honest note of what you couldn't check, for example "I haven't listened to the mix; loudness
   was checked by numbers".
 
+### 9. Edit pack (when asked)
+Quick word: **"edit pack"** (also "editable version", "Premiere", "CapCut"). The pack renders, so the
+person asking for it is the go, and so is pressing **📦 Edit pack** on a card in the picker.
+```sh
+node $AV/engine/edit-pack.mjs $V                  # the pick
+node $AV/engine/edit-pack.mjs $V --looks <look>   # another built look
+```
+`engine/edit-pack.mjs` renders the look's layers from a scratch copy (the look's own folder, with its
+Studio edits, is never touched) into `renders/<slug>-<look>-edit-pack/`. That takes about 3 minutes
+and under 1 GB for a 40 s video. An earlier pack is replaced only once the new one is complete, and
+exporting again keeps anything else the person saved in its folder (a Premiere project, say).
+The pack holds `1-background.mp4`; see-through ProRes 4444 `2-graphics.mov`, `3-text.mov`,
+`4-captions.mov` and `5-watermark.mov` (only with a handle); `captions.srt`; `6-voice.wav`,
+`7-music.wav` and `8-sfx.wav` (all three at 0 dB play the finished −14 LUFS sound); `premiere.xml`;
+`scenes.txt`; and `HOW TO EDIT.txt`. Tell the person:
+- the text layer is a picture, not live type, so its animation stays exact; for new words, change
+  the scene and export the edit pack again;
+- the Premiere timeline (`premiere.xml`) is not yet tested in Premiere; the CapCut steps were tested
+  in CapCut 9.6;
+- where the folder is, and that `HOW TO EDIT.txt` has the steps for both editors and the scene times;
+- relay any `warning:` line the export prints (low disk, or Studio voice or music effects the stems
+  can't copy).
+
 ## Rules that always hold
 
 - **Honest content.** Never invent statistics, testimonials, reviews, follower or view counts, or
