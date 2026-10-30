@@ -75,5 +75,5 @@ test('the package holds the skill and none of the build outputs', () => {
   assert.equal(r.status, 0, r.stderr);
   const list = spawnSync('unzip', ['-Z1', out], { encoding: 'utf8' }).stdout.split('\n').filter(Boolean);
   for (const f of ['SKILL.md', 'README.md', 'LICENSE', 'engine/build.mjs', 'kit/core/av.js', 'kit/fonts/fonts.css', 'blueprints/hook.html', 'references/scenes.md']) assert.ok(list.includes(`animation-video/${f}`), f);
-  for (const f of list) assert.doesNotMatch(f, /\.superpowers|tests\/gallery\/looks|tests\/kitcheck\/project|\.mp4$|\.DS_Store|node_modules|^animation-video\/docs\/|^animation-video\/\.git(\/|ignore$)/, f);
+  for (const f of list) assert.doesNotMatch(f, /\.superpowers|tests\/gallery\/looks|tests\/kitcheck\/project|\.mp4$|\.DS_Store|node_modules|^animation-video\/docs\/|^animation-video\/\.git(\/|ignore$|hub\/)/, f);
 });

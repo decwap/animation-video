@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 
 const SKILL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const NAME = path.basename(SKILL);
-const LEAVE_OUT = [/^\.git(\/|ignore$|$)/, /(^|\/)\.superpowers(\/|$)/, /(^|\/)\.DS_Store$/, /(^|\/)node_modules(\/|$)/, /\.mp4$/i, /^docs(\/|$)/,
+const LEAVE_OUT = [/^\.git(\/|ignore$|$)/, /^\.github(\/|$)/, /(^|\/)\.superpowers(\/|$)/, /(^|\/)\.DS_Store$/, /(^|\/)node_modules(\/|$)/, /\.mp4$/i, /^docs(\/|$)/,
   /^tests\/gallery\/(looks|picker\.html|summary\.json)/, /^tests\/kitcheck\/(project|debug\.html)/, /(^|\/)\.hyperframes(\/|$)/, /\.skill$/];
 
 function files(dir, rel = '') {

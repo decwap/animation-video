@@ -1,5 +1,7 @@
 # animation-video
 
+<img src="https://raw.githubusercontent.com/decwap/animation-video/main/.github/cover.jpg" alt="A Storybook Doodle frame made with this skill: the headline 'Claude can turn any script into an animated explainer.' above a hand-drawn script.txt turning into explainer.mp4" width="270" align="right">
+
 **Animated explainer videos from your script, made by Claude on your own computer.**
 A free skill by **Web Asamoah**. Follow Web Asamoah for more AI tools.
 
